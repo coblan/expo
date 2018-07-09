@@ -13,13 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from hello.engin_menu import PcMenu
 from django.views.generic import RedirectView 
+from helpers.authuser import urls as authuser_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^accounts/',include(authuser_urls)),
+    url(r'^d/',include('helpers.director.urls'),name='director'),
     url(r'^pc/([\w\.]+)/?$',PcMenu.as_view(),name=PcMenu.url_name),
     url(r'^$',RedirectView.as_view(url='/pc/home')) ,
 ]
