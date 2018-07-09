@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from hello.engin_menu import PcMenu
+from django.views.generic import RedirectView 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^pc/([\w\.]+)/?$',PcMenu.as_view(),name=PcMenu.url_name),
+    url(r'^$',RedirectView.as_view(url='/pc/home')) ,
 ]
