@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 from hello.engin_menu import PcMenu
+
 from django.views.generic import RedirectView 
 from helpers.authuser import urls as authuser_urls
 
@@ -26,3 +29,6 @@ urlpatterns = [
     url(r'^pc/([\w\.]+)/?$',PcMenu.as_view(),name=PcMenu.url_name),
     url(r'^$',RedirectView.as_view(url='/pc/home')) ,
 ]
+
+if settings.DEBUG:
+    urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

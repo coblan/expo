@@ -125,6 +125,25 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+# pip install pymysql
 import pymysql
 
 pymysql.install_as_MySQLdb()
+
+
+STATICFILES_FINDERS=[
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+]
+
+
+import sys
+if 'collectstatic' not in sys.argv:
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static').replace('\\', '/'),
+    )
+else:
+    STATIC_ROOT= os.path.join(BASE_DIR, 'static').replace('\\', '/')
+
+MEDIA_ROOT= os.path.join( os.path.dirname(BASE_DIR),'media')
+MEDIA_URL = '/media/'
