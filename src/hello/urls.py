@@ -25,9 +25,9 @@ from helpers.authuser import urls as authuser_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/',include(authuser_urls)),
+    #url(r'^accounts/',include(authuser_urls)),
     
-    url(r'^acc/([\w\.]+)/?$',AuthEngine.as_view(),name=AuthEngine.url_name),
+    url(r'^accounts/([\w\.]+)/?$',AuthEngine.as_view(),name=AuthEngine.url_name),
     
     url(r'^d/',include('helpers.director.urls'),name='director'),
     url(r'^pc/([\w\.]+)/?$',PcMenu.as_view(),name=PcMenu.url_name),
