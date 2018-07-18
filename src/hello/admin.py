@@ -3,7 +3,7 @@ from . import permit
 
 class Home(object):
     template='hello/home.html'
-    def __init__(self,request, par_url):
+    def __init__(self, request, **kws):
         pass
     def get_context(self):
         return {}

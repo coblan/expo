@@ -3,27 +3,21 @@ from django.utils.translation import ugettext as _
 
 def get_permit(): 
     permit = [
-        { 'label': _('Marketing'),
+        { 'label': _('活动'),
          'children': [
-             { 'label': _('Banner'), 'value': 'TbBanner',}, 
-             { 'label': _('App Package'), 'value': 'TbAppversion',}, 
-             { 'label': _('Notice'), 'value': 'TbNotice',}, 
-             { 'label': _('Help'), 'value': 'TbQa',}, 
-             { 'label': _('Activity'), 'value': 'TbActivity',}, 
-             { 'label': _('AppResource'), 'value': 'TbAppresource',}, 
+             { 'label': _('创建活动'), 'value': 'TbBanner',}, 
+             { 'label': _('删除活动'), 'value': 'TbNotice',}, 
+             { 'label': _('添加嘉宾'), 'value': 'TbAppversion',}, 
              ]
          }, 
-        { 'label': _('Member'),
+        { 'label': _('嘉宾'),
          'children': [
-             {'label': _('Tb Account'), 'value': 'TbAccount',}, 
-             {'label': _('Tb Login Log'), 'value': 'TbLoginlog',}, 
-             {'label': _('Tb Balance Log'), 'value': 'TbBalancelog', }, 
-          
+             {'label': _('创建嘉宾'), 'value': 'TbAccount',}, 
+             {'label': _('创建其他'), 'value': 'TbLoginlog',}, 
              ],
          }, 
         {'label': _('MoneyFlow'),
          'children': [
-             #{'label': '账目记录', 'value': 'TbBalancelog', }, 
              {'label': '金流渠道', 'value': 'TbChannel',}, 
              {'label': '金流日志', 'value': 'TbChargeflow',}
              ],
