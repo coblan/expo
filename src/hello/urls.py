@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from hello.engin_menu import PcMenu
+from expo_cms.engin_menu import CMSMenu
 from helpers.authuser.engin_view import AuthEngine
 
 from django.views.generic import RedirectView 
@@ -29,9 +30,12 @@ urlpatterns = [
     
     url(r'^accounts/([\w\.]+)/?$',AuthEngine.as_view(),name=AuthEngine.url_name),
     
+    url(r'^cms/([\w\.]+)/?$',CMSMenu.as_view(),name=CMSMenu.url_name),
+    
+    
     url(r'^d/',include('helpers.director.urls'),name='director'),
     url(r'^pc/([\w\.]+)/?$',PcMenu.as_view(),name=PcMenu.url_name),
-    url(r'^$',RedirectView.as_view(url='/pc/home')) ,
+    url(r'^$',RedirectView.as_view(url='/cms/home')) ,
 ]
 
 

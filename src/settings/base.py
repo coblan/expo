@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'helpers.director', 
     'helpers.authuser', 
     'helpers.case.jb_admin', 
-    'hello'
+    'hello',
+    'expo_cms'
 ]
 
 MIDDLEWARE = [

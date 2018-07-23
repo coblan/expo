@@ -1,13 +1,13 @@
+from django.contrib import admin
 from helpers.director.shortcut import page_dc
-from . import permit
-
+# Register your models here.
 class Home(object):
-    template='hello/home.html'
+    template='expo_cms/home.html'
     def __init__(self, request, **kws):
         pass
     def get_context(self):
         return {}
-
+    
 page_dc.update({
-    'director.home':Home
+    'home':Home
 })
