@@ -29,6 +29,8 @@ class PcMenu(BaseEngine):
         crt_user = self.request.user
         menu=[
             {'label':_('DashBoard'),'url':page('home'),'icon':fa('fa-home'), 'visible':True}, 
+            
+            {'label':_('cms管理'),'url':page('simcms.page'),'icon':fa('fa-home'), 'visible':True}, 
 
             #{'label':_('Marketing'),'icon':fa('fa-image'), 'visible': True,
              #'submenu':[

@@ -1,5 +1,6 @@
 from django.contrib import admin
 from helpers.director.shortcut import page_dc
+from . import cms
 # Register your models here.
 class Home(object):
     template='expo_cms/home.html'

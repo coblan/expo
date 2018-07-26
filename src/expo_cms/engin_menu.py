@@ -15,7 +15,7 @@ class CMSMenu(BaseEngine):
     title='展链'
     brand = '管理后台'
     mini_brand='管理' 
-    
+    need_login = False
 
     @property
     def menu(self):

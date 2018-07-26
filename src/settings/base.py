@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'helpers.director', 
     'helpers.authuser', 
-    'helpers.case.jb_admin', 
+    'helpers.case.jb_admin',
+    'helpers.case.simcms', 
     'hello',
     'expo_cms'
 ]

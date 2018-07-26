@@ -101,8 +101,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
     cfg.js_lib = js_config.js_lib
 
 </script>
+<style>
+    .header{
+        background-color: #0a6ebd;
+        height: 3em;
+        padding: 0 3em;
+    }
+    .header span{
+        display: inline-block;
+        padding: 0 0.5em;
+        cursor: pointer;
+    }
+    .header span:hover{
+        text-decoration:underline;
+    }
+</style>
+<body>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<div class="header flex" style="justify-content:space-between; align-items:center">
+    <img src="http://expolink.cn/assets/images/index/logo-icon.png" alt="" style="max-height: 90%">
+    <div style="color: #efefef;text-shadow: #1b6d85">
+        <span>展讯</span>
+        <span>产品3D</span>
+        <span>VR展馆</span>
+        <span>全景现场</span>
+        <span>支持</span>
+    </div>
+
+    <div>
+        <input type="text">
+    </div>
+
+    <div>
+        <span>登录</span>
+        <span>|</span>
+        <span>注册</span>
+    </div>
+</div>
 
 {% block page_content %}
 
@@ -111,11 +146,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 </body>
 
-<script src="{{ js_config.js_lib.layer }}"></script>
 
-<!--<script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>-->
-<!--<script src="https://unpkg.com/vue-easytable/umd/js/index.js"></script>-->
-<!--<link rel="stylesheet" href="https://unpkg.com/vue-easytable/umd/css/index.css">-->
+
+<script src="{{ js_config.js_lib.layer }}"></script>
 
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <link href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
