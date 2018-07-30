@@ -58,7 +58,13 @@ class BaseInfo(BaseTabFields):
     def get_heads(self): 
         return [
             {'name': 'slogan', 'label': '推广口号','editor': 'blocktext','style': 'width:30em;height:8em',}, 
-            {'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
+            {'name': 'danyuan', 'label': '但愿','editor': 'linetext',},
+            {'name':'pp','label':'测试标签','editor':'com-field-table-list',
+             'table_heads':[{'name':'a','label':'显示一','editor':'com-table-pop-fields-local'},
+                            {'name':'b','label':'显示二'}],
+             'fields_heads':[{'name':'a','label':'显示一','editor':'linetext'},
+                            {'name':'b','label':'显示二','editor':'linetext'}]
+             }
         ]
 
 class BaseInfo2(BaseTabFields):
