@@ -1,6 +1,6 @@
-from helpers.case.simcms.base_page import BasePage
+from helpers.case.simcms.base_page import BasePage, BaseTabFields
 from helpers.case.simcms.base_data import cms_page
-from helpers.director.shortcut import director
+from helpers.director.shortcut import director, ModelFields
 
 class Home(BasePage):
     def getTemplate(self): 
@@ -13,43 +13,70 @@ class Home(BasePage):
         ]
     
     def get_tabs(self):
+        baseinfo = BaseInfo(crt_user = self.request.user)
+        base2 =  BaseInfo2(crt_user = self.request.user)
         ls = [
-            {'name':'basice',
+            {'name':'baseinfo',
              'label':'基本信息',
-             'com':'com_tab_table',
-             
+             'com':'com_tab_fields',
              'get_data':{
-                 'fun':'get_rows',
+                 'fun':'get_row',
                  'kws':{
-                    'model_name':model_to_name(TbTicketstake),
-                    'relat_field':'ticketid',
+                    'director_name':BaseInfo.get_director_name(),
+                    'relat_field':'pk',              
                  }
-                 
              },
-             'heads_ctx':TicketstakeTable(crt_user=self.crt_user).get_head_context()  
+             'after_save':{
+                 #'fun':'update_or_insert'
+                 #'fun':'do_nothing'
+                 'fun':'update_par_row_from_db'
              },
-
-            {'name':'ticketparlay',
-             'label':'串关规则',
-             'com':'com_tab_table',
-             'get_data':{
-                 'fun':'get_rows',
-                 'kws':{
-                    'model_name':model_to_name(TbTicketparlay),
-                    'relat_field':'ticketid',
-                 }
-                 
-             },
-             'heads_ctx':TicketparlayTable(crt_user=self.crt_user).get_head_context()
-             }                   
+             'heads': baseinfo.get_heads(),
+             'ops': baseinfo.get_operations()                 
+             }, 
+            #{'name':'baseinfo2',
+             #'label':'基本信息2',
+             #'com':'com_tab_fields',
+             #'get_data':{
+                 #'fun':'get_row',
+                 #'kws':{
+                    #'director_name':base2.get_director_name(),
+                    #'relat_field':'pk',              
+                 #}
+             #},
+             #'after_save':{
+                 #'fun':'update_par_row_from_db'
+             #},
+             #'heads': base2.get_heads(),
+             #'ops': base2.get_operations()                 
+                  #}, 
         ]
         return ls
+
+class BaseInfo(BaseTabFields):
     
+    def get_heads(self): 
+        return [
+            {'name': 'slogan', 'label': '推广口号','editor': 'blocktext','style': 'width:30em;height:8em',}, 
+            {'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
+        ]
+
+class BaseInfo2(BaseTabFields):
     
+    def get_heads(self): 
+        return [
+            {'name': 'bige', 'label': '逼格','editor': 'linetext',}, 
+            {'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
+        ]
+
+    
+
 
 
 director.update({
     'simcms.page.home': Home,
+    'simcms.page.home.base': BaseInfo,
+    'simcms.page.home.base2': BaseInfo2,
 })
 
 cms_page.update({

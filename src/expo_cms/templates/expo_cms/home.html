@@ -6,6 +6,14 @@
 <link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js"></script>
 
+<script>
+    page_data ={{ page_data |jsonify }}
+//    page_data={
+//        slogan:'3D/VR预先呈现会展效果，大数据精准分析办展成果。'
+//    }
+</script>
+
+
 <style>
     .swiper-container {
         /*width: 500px;*/
@@ -34,12 +42,12 @@
     }
 </style>
 
-<div>
+<div id="there">
     <div class="swiper-container">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <img src="http://expolink.cn/common/images/banner.jpg" alt="" style="height: 100%;width: 100%">
-                <h1 class="center-vh" style="color: white;">3D/VR预先呈现会展效果，大数据精准分析办展成果。</h1>
+                <h1 class="center-vh" style="color: white;" v-text="page_data.slogan"></h1>
 
             </div>
             <div class="swiper-slide">
@@ -65,31 +73,39 @@
     var height = $(window).height()
     $('.swiper-container').height(height-14*4)
     
-    var mySwiper = new Swiper ('.swiper-container', {
-        direction: 'vertical',
-        loop: false,
 
-        mousewheel: true,
+    $(function(){
+        new Vue({
+            el:'#there',
+            data:{
+                page_data:page_data
+            }
+        })
 
-        // 如果需要分页器
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
 
-        // 如果需要前进后退按钮
+        var mySwiper = new Swiper ('.swiper-container', {
+            direction: 'vertical',
+            loop: false,
+
+            mousewheel: true,
+
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+
+            // 如果需要前进后退按钮
 //        navigation: {
 //            nextEl: '.swiper-button-next',
 //            prevEl: '.swiper-button-prev',
 //        },
 
-        // 如果需要滚动条
+            // 如果需要滚动条
 //        scrollbar: {
 //            el: '.swiper-scrollbar',
 //        },
-    })
-    $(function(){
-
+        })
     })
 </script>
 </body>

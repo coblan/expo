@@ -18,7 +18,9 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 from hello.engin_menu import PcMenu
-from expo_cms.engin_menu import CMSMenu
+#from expo_cms.engin_menu import CMSMenu
+from helpers.case.simcms.views import cms_view
+
 from helpers.authuser.engin_view import AuthEngine
 
 from django.views.generic import RedirectView 
@@ -29,8 +31,9 @@ urlpatterns = [
     #url(r'^accounts/',include(authuser_urls)),
     
     url(r'^accounts/([\w\.]+)/?$',AuthEngine.as_view(),name=AuthEngine.url_name),
-    
-    url(r'^cms/([\w\.]+)/?$',CMSMenu.as_view(),name=CMSMenu.url_name),
+    #^articles/(?P<year>[0-9]{4})/$', views.year_archive
+    url(r'^cms/(?P<name>\w+)/$', cms_view), 
+    #url(r'^cms/([\w\.]+)/?$',CMSMenu.as_view(),name=CMSMenu.url_name),
     
     
     url(r'^d/',include('helpers.director.urls'),name='director'),
