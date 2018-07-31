@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 87);
+/******/ 	return __webpack_require__(__webpack_require__.s = 88);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -1069,8 +1069,8 @@ if (!window.atob) {
 "use strict";
 
 
+__webpack_require__(86);
 __webpack_require__(85);
-__webpack_require__(84);
 
 /***/ }),
 
@@ -1199,8 +1199,9 @@ var vuetool = exports.vuetool = {
         }
         for (var i = index - 1; i > -1; i--) {
             var mix = self.$options.mixins[i];
-            if (mix[name]) {
-                return mix.apply(self, args);
+            var methods = mix.methods[name];
+            if (methods) {
+                return methods.apply(self, args);
             }
         }
     },
@@ -1208,6 +1209,26 @@ var vuetool = exports.vuetool = {
         var rt = [];
         cusBroadCall(self, fun, kws, rt);
         return rt;
+    },
+    vueParCall: function vueParCall(self, fun, kws) {
+        var rt = [];
+        cusParCall(self, fun, kws, rt);
+        return rt;
+    },
+    vueExtend: function vueExtend(par, mixins) {
+        var real_par = $.extend({}, par);
+        var orgin_mixins = real_par.mixins;
+        delete real_par.mixins;
+        if (orgin_mixins) {
+            var list = orgin_mixins;
+        } else {
+            var list = [];
+        }
+        list.push(real_par);
+        list = list.concat(mixins);
+        var final_obj = list[list.length - 1];
+        final_obj.mixins = list.slice(0, list.length - 1);
+        return final_obj;
     }
 };
 
@@ -1223,10 +1244,28 @@ function cusBroadCall(self, fun, kws, rt) {
         cusBroadCall(child, fun, kws, rt);
     }
 }
+function cusParCall(self, fun, kws, rt) {
+    if (!self.$parent) {
+        return;
+    }
+    var par = self.$parent;
+    if (par[fun]) {
+        rt.push(par[fun](kws));
+    }
+    cusParCall(par, fun, kws, rt);
+
+    //for(var i =0;i<self.$parent.length;i++){
+    //    var par =self.$parent[i]
+    //    if(par[fun]){
+    //        rt.push(par[fun](kws))
+    //    }
+    //    cusParCall(par,fun,kws,rt)
+    //}
+}
 
 /***/ }),
 
-/***/ 67:
+/***/ 68:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -1241,7 +1280,7 @@ exports.push([module.i, ".abs-full {\n  position: absolute;\n  bottom: 0;\n  top
 
 /***/ }),
 
-/***/ 68:
+/***/ 69:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(0)();
@@ -1327,13 +1366,13 @@ var code = exports.code = {
 
 /***/ }),
 
-/***/ 84:
+/***/ 85:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(67);
+var content = __webpack_require__(68);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -1354,13 +1393,13 @@ if(false) {
 
 /***/ }),
 
-/***/ 85:
+/***/ 86:
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(68);
+var content = __webpack_require__(69);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
 var update = __webpack_require__(1)(content, {});
@@ -1381,7 +1420,7 @@ if(false) {
 
 /***/ }),
 
-/***/ 87:
+/***/ 88:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
