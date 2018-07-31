@@ -52,7 +52,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {% endblock %}
     <script src="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.js"></script>
     <link href="https://cdn.bootcss.com/nprogress/0.2.0/nprogress.min.css" rel="stylesheet">
+
     <script>
+        page_data ={{ page_data |jsonify }}
+    </script>
+
+    <script>
+
         (function(){
             document.onreadystatechange = function(){
                 NProgress.configure({ showSpinner: false });
@@ -82,6 +88,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 sessionStorage.removeItem("sidebar-collapse");
             }
         }
+
+        $(function(){
+            new Vue({
+                el:'#header-bar',
+                data:{
+                    menu_lianjie :page_data.menu_lianjie
+                }
+            })
+        })
     </script>
 
     {% block head-script %}
@@ -118,14 +133,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </style>
 <body>
 
-<div class="header flex" style="justify-content:space-between; align-items:center">
-    <img src="http://expolink.cn/assets/images/index/logo-icon.png" alt="" style="max-height: 90%">
-    <div style="color: #efefef;text-shadow: #1b6d85">
-        <span>展讯</span>
-        <span>产品3D</span>
-        <span>VR展馆</span>
-        <span>全景现场</span>
-        <span>支持</span>
+<div id="header-bar" class="header flex" style="justify-content:space-between; align-items:center">
+    <a href="/cms/home" style="height: 90%">
+        <img src="http://expolink.cn/assets/images/index/logo-icon.png" alt="" style="max-height: 90%">
+    </a>
+
+    <div >
+        <span v-for="item in menu_lianjie">
+            <a style="color: #efefef;text-shadow: #1b6d85" :href="item.url" v-text="item.label"></a>
+        </span>
+        <!--<span>展讯</span>-->
+        <!--<span>产品3D</span>-->
+        <!--<span>VR展馆</span>-->
+        <!--<span>全景现场</span>-->
+        <!--<span>支持</span>-->
     </div>
 
     <div>

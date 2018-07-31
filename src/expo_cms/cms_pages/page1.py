@@ -2,17 +2,18 @@ from helpers.case.simcms.base_page import BasePage, BaseTabFields
 from helpers.case.simcms.base_data import cms_page
 from helpers.director.shortcut import director, ModelFields
 import json
-from . cms_pages import page1
 
-class Home(BasePage):
+class Page1(BasePage):
     def getTemplate(self): 
-        return 'expo_cms/home.html'
+        return 'expo_cms/page1.html'
     
-    def get_heads(self): 
-        return [
-            {'name': 'hello', 'label': '汉化','editor': 'linetext',}, 
-            {'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
-        ]
+    def getName(self): 
+        return '普通页面'
+    #def get_heads(self): 
+        #return [
+            #{'name': 'hello', 'label': '汉化','editor': 'linetext',}, 
+            #{'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
+        #]
     
     def mergeCtx(self, par, ctx): 
         ctx['menu_lianjie'] = json.loads(ctx['menu_lianjie'])
@@ -24,8 +25,7 @@ class Home(BasePage):
         return out
     
     def get_tabs(self):
-        baseinfo = BaseInfo(crt_user = self.request.user)
-        base2 =  BaseInfo2(crt_user = self.request.user)
+        pagecontent = PageContent(crt_user = self.request.user)
         ls = [
             {'name':'baseinfo',
              'label':'基本信息',
@@ -33,7 +33,7 @@ class Home(BasePage):
              'get_data':{
                  'fun':'get_row',
                  'kws':{
-                    'director_name':BaseInfo.get_director_name(),
+                    'director_name':pagecontent.get_director_name(),
                     'relat_field':'pk',              
                  }
              },
@@ -42,8 +42,8 @@ class Home(BasePage):
                  #'fun':'do_nothing'
                  'fun':'update_par_row_from_db'
              },
-             'heads': baseinfo.get_heads(),
-             'ops': baseinfo.get_operations()                 
+             'heads': pagecontent.get_heads(),
+             'ops': pagecontent.get_operations()                 
              }, 
             #{'name':'baseinfo2',
              #'label':'基本信息2',
@@ -64,17 +64,17 @@ class Home(BasePage):
         ]
         return ls
 
-class BaseInfo(BaseTabFields):
+class PageContent(BaseTabFields):
     def get_heads(self): 
         return [
-            {'name': 'slogan', 'label': '推广口号','editor': 'blocktext','style': 'width:30em;height:8em',}, 
-            {'name':'menu_lianjie','label':'导航栏链接','editor':'com-field-table-list',
-             'table_heads':[{'name':'url','label':'url','editor':'com-table-pop-fields-local'},
-                            {'name':'label','label':'显示文字'}, 
-                            {'name': 'op', 'label': '', 'editor': 'com-table-change-order',}],
-             'fields_heads':[{'name':'url','label':'url','editor':'linetext'},
-                            {'name':'label','label':'显示文字','editor':'linetext'}]
-             }
+            {'name': 'content', 'label': '页面内容','editor': 'richtext',}, 
+            #{'name':'menu_lianjie','label':'导航栏链接','editor':'com-field-table-list',
+             #'table_heads':[{'name':'url','label':'url','editor':'com-table-pop-fields-local'},
+                            #{'name':'label','label':'显示文字'}, 
+                            #{'name': 'op', 'label': '', 'editor': 'com-table-change-order',}],
+             #'fields_heads':[{'name':'url','label':'url','editor':'linetext'},
+                            #{'name':'label','label':'显示文字','editor':'linetext'}]
+             #}
         ]    
     
     #def get_heads(self): 
@@ -90,24 +90,23 @@ class BaseInfo(BaseTabFields):
              #}
         #]
 
-class BaseInfo2(BaseTabFields):
+#class BaseInfo2(BaseTabFields):
     
-    def get_heads(self): 
-        return [
-            {'name': 'bige', 'label': '逼格','editor': 'linetext',}, 
-            {'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
-        ]
+    #def get_heads(self): 
+        #return [
+            #{'name': 'bige', 'label': '逼格','editor': 'linetext',}, 
+            #{'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
+        #]
 
     
 
 
 
 director.update({
-    'simcms.page.home': Home,
-    'simcms.page.home.base': BaseInfo,
-    'simcms.page.home.base2': BaseInfo2,
+    'simcms.page.page1': Page1,
+    'simcms.page.page1.pageconent': PageContent,
 })
 
 cms_page.update({
-    'expo_cms_home': Home,
+    'expo_cms_page1': Page1,
 })

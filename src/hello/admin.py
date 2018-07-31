@@ -9,5 +9,5 @@ class Home(object):
         return {}
 
 page_dc.update({
-    'director.home':Home
+    'home':Home
 })
