@@ -16,7 +16,8 @@ class Page1(BasePage):
         #]
     
     def mergeCtx(self, par, ctx): 
-        ctx['menu_lianjie'] = json.loads(ctx['menu_lianjie'])
+        
+        ctx['menu_lianjie'] = []  #json.loads(ctx['menu_lianjie'])
         
         out = dict(par)
         out.update(ctx)
