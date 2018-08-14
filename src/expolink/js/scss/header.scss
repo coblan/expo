@@ -1,0 +1,17 @@
+#header-bar{
+  background-color: #f0f1f3;
+
+  display: flex;
+  padding-left: 2em;
+  padding-right: 2em;
+
+  .menu-item{
+    display: inline-block;
+    margin: 1em;
+
+    a{
+      text-decoration: none;
+      color : black;
+    }
+  }
+}

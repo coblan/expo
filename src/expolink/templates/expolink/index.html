@@ -1,0 +1,69 @@
+{% extends 'expolink/base.html' %}
+{% load static %}
+{% load jsonify %}
+
+{% block page_content %}
+<link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js"></script>
+
+<script>
+
+    //    page_data={
+    //        slogan:'3D/VR预先呈现会展效果，大数据精准分析办展成果。'
+    //    }
+</script>
+
+
+<style>
+    .swiper-container {
+        /*width: 500px;*/
+        /*height: 300px;*/
+        /*margin: 20px auto;*/
+    }
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+
+    }
+
+</style>
+
+
+<div id="there" class="wrap" style="position: relative">
+
+
+        <img src="/static/home/5.png" alt="" width="100%"/>
+        <img src="/static/home/5_1.png" alt="" style="position: absolute;top:-30px;left:15%;transform: scale(0.8,0.8)"/>
+
+        <div style="position: absolute;top:160px;left:30%;transform: scale(0.8,0.8)">
+            <img src="/static/home/1_1.png" alt="" style="position: absolute;top:0;left:0;"/>
+            <img src="/static/home/1_2.png" alt="" style="position: absolute;top:20px;left:0;"/>
+            <img src="/static/home/2.png" alt="" style="position: absolute;top:20px;left:-10px;"/>
+        </div>
+
+
+
+        <img style="position: absolute;top:0;left:0;z-index:-100" src="/static/home/10.png" alt="" width="100%" style="margin: 0;padding: 0"/>
+
+
+
+</div>
+
+
+</body>
+{% endblock %}

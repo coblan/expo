@@ -25,8 +25,14 @@ from helpers.authuser.engin_view import AuthEngine
 
 from django.views.generic import RedirectView 
 from helpers.authuser import urls as authuser_urls
+from expolink import views as expo_views
 
 urlpatterns = [
+    
+    url(r'^index/?$',expo_views.home),
+    
+    
+    
     url(r'^admin/', admin.site.urls),
     #url(r'^accounts/',include(authuser_urls)),
     

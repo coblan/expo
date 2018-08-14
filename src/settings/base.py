@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'helpers.case.jb_admin',
     'helpers.case.simcms', 
     'hello',
-    'expo_cms'
+    'expo_cms',
+    'expolink'
 ]
 
 MIDDLEWARE = [

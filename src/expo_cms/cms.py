@@ -14,8 +14,8 @@ class Home(BasePage):
             {'name': 'danyuan', 'label': '但愿','editor': 'linetext',}  
         ]
     
-    def mergeCtx(self, par, ctx): 
-        ctx['menu_lianjie'] = json.loads(ctx['menu_lianjie'])
+    def mergeCtx(self, par, ctx):
+        ctx['menu_lianjie'] = json.loads(ctx.get('menu_lianjie','[]'))
         
         out = dict(par)
         out.update(ctx)
