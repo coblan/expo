@@ -104,9 +104,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 el:'#header-bar',
                 data:{
                     menu : [
-                        {label:'展讯',link:'xxx'},
+                        {label:'展讯',link:'xxx',name:'zhanxun'},
                         {label:'产品3D',link:'bbb'},
-                    ]
+                        {label:'VR展馆',link:'bbb'},
+                        {label:'全景现场',link:'bbb'},
+                    ],
+                    crt_page_name:crt_page_name,
                 }
             })
 
@@ -136,7 +139,7 @@ body{
 
 }
     .wrap{
-        max-width: 1200px;
+        max-width: 1160px;
         margin: auto;
     }
 </style>
@@ -144,18 +147,24 @@ body{
 
     <div class="wrap">
         <div id="header-bar" class="header" style="justify-content:space-between; align-items:center;position: relative;">
-        <a href="/cms/home">
-            <img src="/static/home/logo.png" alt="" >
-        </a>
+            <a href="/index" class="log-link" style="display: flex">
+                <img src="/static/home/logo.png" alt="" height="100%">
+
+                <span class="exp">Expolink</span>
+                <span class="dot">.</span>
+                <span class="zhan">展链</span>
+
+            </a>
 
         <div >
             <span class="menu-item" v-for="act in menu">
-                <a  :href="act.link" v-text="act.label"></a>
+                <a :class="{'active':crt_page_name==act.name}"  :href="act.link" v-text="act.label"></a>
             </span>
         </div>
 
-        <div>
-            <input type="text">
+        <div class="search-panel">
+            <img class="search-btn" src="/static/home/12.png" alt="">
+            <input type="text" placeholder="搜索">
         </div>
 
         <div style="z-index:200">
