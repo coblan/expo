@@ -45,7 +45,7 @@ urlpatterns = [
     url(r'^d/',include('helpers.director.urls'),name='director'),
     url(r'^pc/([\w\.]+)/?$',PcMenu.as_view(),name=PcMenu.url_name),
     url(r'^pc/?$',RedirectView.as_view(url='/pc/home')),
-    url(r'^$',RedirectView.as_view(url='/cms/home')) ,
+    url(r'^$',RedirectView.as_view(url='/index')) ,
 ]
 
 
