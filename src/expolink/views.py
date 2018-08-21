@@ -1,18 +1,21 @@
 from django.shortcuts import render
 
 from django.views.generic.base import View
-
+from helpers.director.engine import BaseEngine
 
 # Create your views here.
 
 class Home(View):
   
     def get(self,request):
+        baseengine = BaseEngine()
+        baseengine.request = request
         page_data ={}
         if request.user.is_authenticated():
             page_data['username']=request.user.username
         ctx={
-            'page_data':page_data
+            'page_data':page_data,
+            'js_config':baseengine.getJsConfig()
         }
         template = self.get_template()
         return render(request,template,context=ctx)        
