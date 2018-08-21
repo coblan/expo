@@ -1,6 +1,45 @@
 from django.shortcuts import render
 
+from django.views.generic.base import View
+
+
 # Create your views here.
 
-def home(request):
-    return render(request,'expolink/index.html',context={})
+class Home(View):
+  
+    def get(self,request):
+        page_data ={}
+        if request.user.is_authenticated():
+            page_data['username']=request.user.username
+        ctx={
+            'page_data':page_data
+        }
+        template = self.get_template()
+        return render(request,template,context=ctx)        
+    
+    def get_template(self):
+        return 'expolink/index.html'
+    
+
+class D3(Home):
+    def get_template(self):
+        return 'expolink/3d.html'
+    
+
+class VR(Home):
+    def get_template(self):
+        return 'expolink/vr.html'
+
+class FullScreen(Home):
+    def get_template(self):
+        return 'expolink/fullscreen.html'
+
+#def home(request):
+    #page_data ={}
+    #if request.user.is_authenticated():
+        #page_data['username']=request.user.username
+    #ctx={
+        #'page_data':page_data
+    #}
+    #return render(request,'expolink/index.html',context=ctx)
+
