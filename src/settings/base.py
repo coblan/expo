@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'helpers.case.simcms', 
     'hello',
     'expo_cms',
-    'expolink'
+    'expolink',
 ]
 
 MIDDLEWARE = [
@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'helpers.director.middleware.request_cache.RequestCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'hello.urls'

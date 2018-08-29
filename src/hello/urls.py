@@ -30,9 +30,12 @@ from expolink import views as expo_views
 urlpatterns = [
     
     url(r'^index/?$',expo_views.Home.as_view()),
+     url(r'^p/zhanxun/?$',expo_views.Zhanxun.as_view()),
     url(r'^p/3d/?$',expo_views.D3.as_view()),
     url(r'^p/vr/?$',expo_views.VR.as_view()),
-      url(r'^p/fullscreen/?$',expo_views.FullScreen.as_view()),
+    url(r'^p/fullscreen/?$',expo_views.FullScreen.as_view()),
+    
+    url(r'^p/zhanxun2/?$',expo_views.Zhanxun2.as_view()),
     
     
     

@@ -30,19 +30,14 @@ class PcMenu(BaseEngine):
         menu=[
             {'label':_('DashBoard'),'url':page('home'),'icon':fa('fa-home'), 'visible':True}, 
             
-            {'label':_('cms管理'),'url':page('simcms.page'),'icon':fa('fa-home'), 'visible':True}, 
+            
+            {'label':_('页面管理'),'icon':fa('fa-home'), 'visible':True,'submenu':[
+                {'label':'展讯页面','url':page('expolink.zhanxun'),'visible':can_touch(User, crt_user)},
+                ]}, 
+            
+            #{'label':_('cms管理'),'url':page('simcms.page'),'icon':fa('fa-home'), 'visible':True}, 
 
-            #{'label':_('Marketing'),'icon':fa('fa-image'), 'visible': True,
-             #'submenu':[
-                #{'label':_('Banner'),'url':page('TbBanner'), 'visible': can_touch(TbBanner, crt_user) },
-                #{'label':_('App Package'),'url':page('maindb.TbAppversion'), 'visible': can_touch(TbAppversion, crt_user),},
-                #{'label':_('Notice'),'url':page('maindb.TbNotice'), 'visible': can_touch(TbNotice, crt_user),},
-                #{'label':_('Currency'),'url':page('maindb.TbCurrency'), 'visible': can_touch(TbCurrency, crt_user)},
-                #{'label':_('Help'),'url':page('maindb.TbQa'), 'visible': can_touch(TbQa, crt_user),},
-                #{'label':_('Activity'),'url':page('maindb.TBActive'), 'visible': can_touch(TbActivity, crt_user),},
-                #{'label':_('AppResource'),'url':page('AppResource'), 'visible': can_touch(TbAppresource, crt_user),},
-
-                #]},  
+ 
             {'label':_('User'),'icon':fa('fa-user'),'visible':True,
                  'submenu':[
                      {'label':_('User'),'url':page('jb_user'),'visible':can_touch(User, crt_user)},
