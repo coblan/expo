@@ -3,8 +3,6 @@
 {% load jsonify %}
 
 {% block page_content %}
-<link href="https://cdn.bootcss.com/Swiper/4.3.0/css/swiper.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/Swiper/4.3.0/js/swiper.min.js"></script>
 
 <script>
 
@@ -32,11 +30,33 @@
         })
     })
 </script>
+<style>
+    .card{
+        width: 800px;
+        margin: auto;
+        display: flex;
+        margin-top: 20px;
+        background-color: white;
+        padding: 1em;
+    }
+    .card .item{
+        padding-left: 1em;
+    }
 
-<div id="there" class="wrap" style="height: 100%;">
-    <div v-for="row in rows">
-        <img :src="row.cover" alt="" width="100px"/>
-        <a :href="'/p/zhanxun2/?id='+row.id" v-text="row.title"></a>
+</style>
+
+<div id="there" class="wrap" style="height: 100%;padding-top: 50px">
+    <div v-for="row in rows" class="card">
+        <div>
+            <img :src="row.cover" alt="" width="100px"/>
+        </div>
+
+        <div class="item">
+            <h4  v-text="row.title"></h4>
+            <div v-text="row.abstract"></div>
+            <a :href="'/p/zhanxun2/?id='+row.id">详细</a>
+        </div>
+
     </div>
 
 </div>

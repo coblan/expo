@@ -9,6 +9,7 @@ ZHANXUN_STATUS=(
 
 class ZhanXunModel(models.Model):
     title = models.CharField('标题',max_length=500)
+    abstract = models.TextField('摘要',blank=True)
     cover = PictureField('封面',max_length=400,blank=True)
     content = models.TextField('内容',blank=True)
     status=models.IntegerField('状态',choices=ZHANXUN_STATUS,default=0)

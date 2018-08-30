@@ -11,7 +11,8 @@ class ZhanXunPage(TablePage):
     
     class tableCls(ModelTable):
         model = ZhanXunModel
-        exclude =[]
+        #hide_fields=['content']
+        exclude =['content']
         
         def dict_head(self, head):
             if head['name'] == 'title':

@@ -45,15 +45,26 @@
 </style>
 
 <script>
+
+    zhanxun = {{ zhanxun | jsonify }}
+
     $(function(){
         new Vue({
-            el:'#there'
+            el:'#there',
+            data:{
+                zhanxun:zhanxun
+            }
         })
     })
 </script>
 
 <style>
-
+    .zhanxun-item a{
+        text-decoration: none;
+    }
+    .zhanxun-item a:hover{
+        text-decoration: underline;
+    }
 </style>
 
 <div id="there" class="wrap" style="position: relative">
@@ -84,11 +95,15 @@
         </com-img-group>
         <div style="width: 17em;height:18em;background-color: rgba(224, 224, 224, 0.9);
             position:absolute;bottom: 18em;right: 4em;">
-            <h5 style="position: absolute;top:-3.4em;left: 0.3em;">展讯 ></h5>
+            <h5 style="position: absolute;top:-3.4em;left: 0.3em;"><a href="/p/zhanxun" style="color: black;text-decoration: none">展讯 > </a></h5>
             <div style="padding: 3em 0.6em;">
-                <div>准备开发双冠上双攻算双工地是算个 </div>
-                <div>双工噶酸算个阿斯顿噶酸觥纶</div>
-                <div>s送胜算算个算觥算觥算觥算个 </div>
+
+                    <div class="zhanxun-item" v-for="info in zhanxun" style="padding-left: 1em;margin-top: 5px">
+                        <a :href="'/p/zhanxun2?id='+info.pk" v-text="info.title" style="color: black;"></a>
+                    </div>
+
+
+               
             </div>
         </div>
         <img style="position: absolute;top:0;left:0;z-index:-100;height: 1100px" src="/static/home/10.png" alt="" width="100%" style="margin: 0;padding: 0"/>

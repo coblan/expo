@@ -33,14 +33,28 @@
     })
 </script>
 
-<div id="there" class="wrap" style="height: 100%">
+<style>
+    .info-content{
+        background-color: white;
+        width: 800px;
+        min-height: 800px;
+        padding: 1em;
+        margin: auto;
+    }
+</style>
 
-    <h2 v-text="row.title"></h2>
-    <div>
-        <div v-html="row.content">
+<div id="there" class="wrap" style="height: 100%;padding-top: 50px">
 
+    <div class="info-content">
+        <h2 v-text="row.title"></h2>
+        <hr/>
+        <div>
+            <div v-html="row.content">
+
+            </div>
         </div>
     </div>
+
 
 </div>
 

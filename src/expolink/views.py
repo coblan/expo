@@ -24,7 +24,12 @@ class Home(View):
         return render(request,template,context=ctx)   
     
     def extraCtx(self):
-        return {}
+        ls=[]
+        for zhan in ZhanXunModel.objects.all():
+            ls.append({'title':zhan.title,'pk':zhan.pk})
+        return {
+            'zhanxun':ls
+        }
     
     def get_template(self):
         return 'expolink/index.html'
