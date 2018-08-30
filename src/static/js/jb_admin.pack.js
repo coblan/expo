@@ -1067,7 +1067,7 @@ function pop_fields_layer(row, fields_ctx, callback, layerConfig) {
             var total_height = $('#fields-pop-' + pop_id).parents('.layui-layer').height();
             $('#fields-pop-' + pop_id).parents('.layui-layer-content').height(total_height - 42);
         },
-        shadeClose: true, //点击遮罩关闭
+        //shadeClose: true, //点击遮罩关闭
         content: '<div id="fields-pop-' + pop_id + '" style="height: 100%;">\n                    <component :is="\'com-pop-fields-\'+com_id" @del_success="on_del()" @submit-success="on_sub_success($event)"\n                    :row="row" :heads="fields_heads" :ops="ops"></component>\n                </div>',
         end: function end() {
 
@@ -1418,33 +1418,36 @@ window.mix_fields_data = mix_fields_data;
 
 var nice_validator = {
     mounted: function mounted() {
-        var self = this;
-        var validator = {};
-        ex.each(this.heads, function (head) {
-            var ls = [];
-
-            if (head.fv_rule) {
-                ls.push(head.fv_rule);
-            }
-            if (head.required) {
-                if (!head.fv_rule || head.fv_rule.search('required') == -1) {
-                    // 规则不包含 required的时候，再添加上去
-                    ls.push('required');
-                }
-            }
-            validator[head.name] = ls.join(';');
-        });
-        if ($(this.$el).hasClass('field-panel')) {
-            this.nice_validator = $(this.$el).validator({
-                fields: validator
-            });
-        } else {
-            this.nice_validator = $(this.$el).find('.field-panel').validator({
-                fields: validator
-            });
-        }
+        this.update_nice();
     },
     methods: {
+        update_nice: function update_nice() {
+            var self = this;
+            var validator = {};
+            ex.each(this.heads, function (head) {
+                var ls = [];
+
+                if (head.fv_rule) {
+                    ls.push(head.fv_rule);
+                }
+                if (head.required) {
+                    if (!head.fv_rule || head.fv_rule.search('required') == -1) {
+                        // 规则不包含 required的时候，再添加上去
+                        ls.push('required');
+                    }
+                }
+                validator[head.name] = ls.join(';');
+            });
+            if ($(this.$el).hasClass('field-panel')) {
+                this.nice_validator = $(this.$el).validator({
+                    fields: validator
+                });
+            } else {
+                this.nice_validator = $(this.$el).find('.field-panel').validator({
+                    fields: validator
+                });
+            }
+        },
         isValid: function isValid() {
             var nice_rt = this.nice_validator.isValid();
             //var totalValid=[nice_rt]
@@ -1542,22 +1545,82 @@ var mix_table_data = {
                 });
             },
             selected_set_and_save: function selected_set_and_save(kws) {
-                if (self.selected.length == 0) {
-                    cfg.showMsg('请选择一些行');
+                // head: row_match:many_row ,
+                var row_match_fun = kws.row_match || 'many_row';
+                if (!row_match[row_match_fun](self, kws)) {
                     return;
                 }
-                //var rows =[]
-                ex.each(self.selected, function (row) {
-                    row[kws.field] = kws.value;
 
-                    //rows.push({pk:row.pk,
-                    //    _director_name:row._director_name,
-                    //    kws.field:kws.value}
-                    //)
+                function bb(all_set_dict, after_save_callback) {
+                    var cache_rows = ex.copy(self.selected);
+
+                    ex.each(cache_rows, function (row) {
+                        row[kws.field] = kws.value;
+                        ex.assign(row, all_set_dict);
+                    });
+                    var post_data = [{ fun: 'save_rows', rows: cache_rows }];
+                    cfg.show_load();
+                    ex.post('/d/ajax', JSON.stringify(post_data), function (resp) {
+
+                        ex.each(self.selected, function (row) {
+                            row[kws.field] = kws.value;
+                            ex.assign(row, all_set_dict);
+                        });
+
+                        cfg.hide_load(2000);
+                        if (after_save_callback) {
+                            after_save_callback();
+                        }
+                    });
+                }
+
+                if (kws.confirm_msg) {
+                    layer.confirm(kws.confirm_msg, { icon: 3, title: '提示' }, function (index) {
+                        layer.close(index);
+                        if (kws.fields_ctx) {
+                            var win_index = pop_edit_local({}, kws.fields_ctx, function (new_row) {
+                                bb(new_row, function () {
+                                    setTimeout(function () {
+                                        layer.close(win_index);
+                                    }, 1500);
+                                });
+                            });
+                        } else {
+                            bb({});
+                        }
+                    });
+                } else {
+                    bb();
+                }
+            },
+            selected_pop_set_and_save: function selected_pop_set_and_save(kws) {
+                var row_match_fun = kws.row_match || 'one_row';
+                if (!row_match[row_match_fun](self, kws)) {
+                    return;
+                }
+
+                var crt_row = self.selected[0];
+                var cache_director_name = crt_row._director_name;
+                crt_row._director_name = kws.fields_ctx.director_name;
+                var win_index = pop_fields_layer(crt_row, kws.fields_ctx, function (new_row) {
+                    ex.assign(crt_row, new_row);
+                    crt_row._director_name = cache_director_name;
+                    setTimeout(function () {
+                        layer.close(win_index);
+                    }, 1500);
                 });
-                var post_data = [{ fun: 'save_rows', rows: self.selected }];
+            },
+            ajax_row: function ajax_row(kws) {
+                // kws 是head : {'fun': 'ajax_row', 'app': 'maindb', 'ajax_fun': 'modify_money_pswd', 'editor': 'com-op-btn', 'label': '重置资金密码', },
+                if (self.selected.length == 0) {
+                    cfg.showMsg('请选择一行数据');
+                    return;
+                }
+                var row = self.selected[0];
+                var post_data = [{ fun: kws.ajax_fun, row: row }];
+
                 cfg.show_load();
-                ex.post('/d/ajax', JSON.stringify(post_data), function (resp) {
+                ex.post('/d/ajax/' + kws.app, JSON.stringify(post_data), function (resp) {
                     cfg.hide_load(2000);
                 });
             },
@@ -1666,17 +1729,17 @@ var mix_table_data = {
             var self = this;
 
             cfg.show_load();
+            self.rows = [];
+
             var post_data = [{ fun: 'get_rows', director_name: self.director_name, search_args: self.search_args }];
             $.post('/d/ajax', JSON.stringify(post_data), function (resp) {
+
                 self.rows = resp.get_rows.rows;
                 self.row_pages = resp.get_rows.row_pages;
                 self.search_args = resp.get_rows.search_args;
+                self.footer = resp.get_rows.footer;
                 cfg.hide_load();
             });
-        },
-        get_data: function get_data() {
-            this.getRows();
-            //this.data_getter(this)
         },
         get_page: function get_page(page_number) {
             this.search_args._page = page_number;
@@ -1735,6 +1798,64 @@ var mix_table_data = {
             });
         }
 
+    }
+};
+
+var row_match = {
+    one_row: function one_row(self, head) {
+        if (self.selected.length != 1) {
+            cfg.showMsg('请选择一行数据！');
+            return false;
+        } else {
+            return true;
+        }
+    },
+    many_row: function many_row(self, head) {
+        if (self.selected.length == 0) {
+            cfg.showMsg('请至少选择一行数据！');
+            return false;
+        } else {
+            return true;
+        }
+    },
+    one_row_match: function one_row_match(self, head) {
+        if (self.selected.length != 1) {
+            cfg.showMsg('请选择一行数据！');
+            return false;
+        } else {
+            var field = head.match_field;
+            var values = head.match_values;
+            var msg = head.match_msg;
+
+            var row = self.selected[0];
+
+            if (!ex.isin(row[field], values)) {
+                cfg.showMsg(msg);
+                return false;
+            } else {
+                return true;
+            }
+        }
+    },
+    many_row_match: function many_row_match(self, head) {
+        // head : @match_field , @match_values ,@match_msg
+        if (self.selected.length == 0) {
+            cfg.showMsg('请至少选择一行数据！');
+            return false;
+        } else {
+            var field = head.match_field;
+            var values = head.match_values;
+            var msg = head.match_msg;
+
+            for (var i = 0; i < self.selected.length; i++) {
+                var row = self.selected[i];
+                if (!ex.isin(row[field], values)) {
+                    cfg.showMsg(msg);
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 };
 
@@ -3319,7 +3440,7 @@ var ajax_table = {
             row_filters: heads_ctx.row_filters,
             row_sort: heads_ctx.row_sort,
             director_name: heads_ctx.director_name,
-            footer: [],
+            footer: heads_ctx.footer || [],
             rows: [],
             row_pages: {},
             //search_tip:this.kw.search_tip,
@@ -3343,33 +3464,22 @@ var ajax_table = {
     methods: {
         on_show: function on_show() {
             if (!this.fetched) {
-                this.get_data();
+                this.search();
                 this.fetched = true;
             }
         },
         getRows: function getRows() {
-            // 这里clear，数据被清空，造成table的pagenator上下抖动
-            //                       com.clear()
-
-            //                        var getter_name = 'get_'+tab.name
+            //
             var self = this;
-            var fun = get_data[this.tab_head.get_data.fun];
-            fun(function (rows, row_pages) {
-                self.rows = rows;
-                self.row_pages = row_pages;
-            }, this.par_row, this.tab_head.get_data.kws, this.search_args);
-
-            //            var self=this
-            //            var relat_pk = this.par_row[this.relat_field]
-            //        var relat_field = this.relat_field
-            //        this.search_args[relat_field] = relat_pk
-            //        var post_data=[{fun:'get_rows',search_args:this.search_args,model_name:this.model_name}]
-            //            cfg.show_load()
-            //        $.post('/d/ajax',JSON.stringify(post_data),function(resp){
-            //            cfg.hide_load()
-            //            self.rows = resp.get_rows.rows
-            //            self.row_pages =resp.get_rows.row_pages
-            //        })
+            self.search_args[self.tab_head.par_field] = self.par_row[self.tab_head.par_field];
+            ex.vueSuper(self, { fun: 'getRows' });
+            //var fun = get_data[this.tab_head.get_data.fun ]
+            //fun(function(rows,row_pages,footer){
+            //    self.rows = rows
+            //    self.row_pages =row_pages
+            //    self.footer = footer
+            //
+            //},this.par_row,this.tab_head.get_data.kws,this.search_args)
         },
         del_item: function del_item() {
             if (this.selected.length == 0) {
@@ -3412,25 +3522,25 @@ var ajax_table = {
 
 Vue.component('com_tab_table', ajax_table);
 
-var get_data = {
-    get_rows: function get_rows(callback, row, kws, search_args) {
-        var relat_field = kws.relat_field;
-        var director_name = kws.director_name;
-
-        var self = this;
-        var relat_pk = row[kws.relat_field];
-        var relat_field = kws.relat_field;
-        search_args[relat_field] = relat_pk;
-        var post_data = [{ fun: 'get_rows', search_args: search_args, director_name: director_name }];
-        cfg.show_load();
-        $.post('/d/ajax', JSON.stringify(post_data), function (resp) {
-            cfg.hide_load();
-            callback(resp.get_rows.rows, resp.get_rows.row_pages);
-            //self.rows = resp.get_rows.rows
-            //self.row_pages =resp.get_rows.row_pages
-        });
-    }
-};
+//var get_data={
+//    get_rows:function(callback,row,kws,search_args){
+//        var relat_field = kws.relat_field
+//        var director_name = kws.director_name
+//
+//        var self=this
+//        var relat_pk = row[kws.relat_field]
+//        var relat_field = kws.relat_field
+//        search_args[relat_field] = relat_pk
+//        var post_data=[{fun:'get_rows',search_args:search_args,director_name:director_name}]
+//        cfg.show_load()
+//        $.post('/d/ajax',JSON.stringify(post_data),function(resp){
+//            cfg.hide_load()
+//            callback(resp.get_rows.rows,resp.get_rows.row_pages,resp.get_rows.footer)
+//            //self.rows = resp.get_rows.rows
+//            //self.row_pages =resp.get_rows.row_pages
+//        })
+//    }
+//}
 
 /***/ }),
 /* 51 */

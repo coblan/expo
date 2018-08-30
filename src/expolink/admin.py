@@ -20,6 +20,7 @@ class ZhanXunPage(TablePage):
                 head['tab_name']='zhanxun_form'
                 
             return head
+        
     
     def get_context(self):
         ctx =super().get_context()
