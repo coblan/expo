@@ -21,6 +21,13 @@ class ZhanXunPage(TablePage):
                 
             return head
         
+        def get_operation(self): 
+            ops = super().get_operation()
+            for op in ops:
+                if op['name'] == 'add_new':
+                    op['tab_name'] = 'zhanxun_form'
+            return ops        
+        
     
     def get_context(self):
         ctx =super().get_context()
